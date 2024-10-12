@@ -1,0 +1,39 @@
+---
+- name: Add a new user on the local machine and set up SSH key
+  hosts: localhost
+  become: yes  # Use sudo to run the tasks
+
+  vars_files:
+    - ../group_vars/all.yml
+
+  vars:
+    public_key: "{{ lookup('file', '../files/public_key.txt') }}"  # Load the SSH public key
+    password_hash_sha512: "{{ lookup('file', '../files/password_hash.txt') }}"  # Load the hashed user password
+
+  tasks:
+
+    - name: Ansible username
+      debug:
+        msg: "The value of my_variable is: {{ ansible_user }}"
+
+    - name: Ensure the user is present
+      user:
+        name: "{{ ansible_user }}"
+        state: present
+        shell: /bin/bash
+        groups: sudo
+        password: "{{ password_hash_sha512 }}"
+
+    - name: Create .ssh directory for the new user
+      file:
+        path: "/home/{{ ansible_user }}/.ssh"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0700'
+
+    - name: Add public key to authorized_keys
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ public_key }}"

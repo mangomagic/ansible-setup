@@ -1,0 +1,36 @@
+---
+- name: Configure UFW Firewall
+  hosts: localhost
+  become: yes
+  vars:
+    ufw_ports:
+      - 22    # SSH
+      - 80    # HTTP
+      - 443   # HTTPS
+
+  tasks:
+
+    - name: Ensure ufw is installed
+      apt:
+        name: ufw
+        state: present
+        update_cache: yes
+
+    - name: Allow specified ports in UFW
+      ansible.builtin.ufw:
+        rule: allow
+        port: "{{ item | string }}"
+        proto: tcp  # Change to 'udp' if needed
+      loop: "{{ ufw_ports }}"
+
+    - name: Enable the UFW firewall
+      ansible.builtin.ufw:
+        state: enabled
+
+    - name: Check the status of the UFW firewall
+      command: ufw status
+      register: ufw_status
+
+    - name: Display UFW status
+      ansible.builtin.debug:
+        var: ufw_status.stdout

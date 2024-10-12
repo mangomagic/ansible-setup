@@ -1,0 +1,64 @@
+---
+- name: Configure SSHD with best practices
+  hosts: localhost
+  become: yes
+
+  vars:
+    sshd_config_path: /etc/ssh/sshd_config
+
+  tasks:
+
+    - name: Ensure SSHD is installed
+      apt:
+        name: openssh-server
+        state: present
+        update_cache: yes  # Update the package cache before installing
+
+    - name: Ensure SSHD service is running and enabled
+      service:
+        name: ssh
+        state: started
+        enabled: yes
+
+    - name: Ensure SSHD config file is present
+      ansible.builtin.file:
+        path: "{{ sshd_config_path }}"
+        state: touch
+
+    - name: Set best practices in sshd_config
+      ansible.builtin.lineinfile:
+        path: "{{ sshd_config_path }}"
+        regexp: '^{{ item.key }}'
+        line: '{{ item.key }} {{ item.value }}'
+        state: present
+      loop:
+        - { key: 'PermitRootLogin', value: 'no' }
+        - { key: 'PasswordAuthentication', value: 'no' }
+        - { key: 'ChallengeResponseAuthentication', value: 'no' }
+        - { key: 'UsePAM', value: 'no' }
+        - { key: 'MaxAuthTries', value: '3' }
+        - { key: 'PermitEmptyPasswords', value: 'no' }
+        - { key: 'X11Forwarding', value: 'no' }
+        - { key: 'ClientAliveInterval', value: '300' }
+        - { key: 'ClientAliveCountMax', value: '0' }
+
+    - name: Set AllowUsers in sshd_config
+      ansible.builtin.lineinfile:
+        path: "{{ sshd_config_path }}"
+        regexp: '^AllowUsers'
+        line: "AllowUsers {{ ansible_user }}"
+        state: present
+
+    - name: Restart SSH service
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
+
+    - name: Read the contents of the SSH config
+      slurp:
+        src: "{{ sshd_config_path }}"
+      register: file_contents
+
+    - name: Display the file contents
+      debug:
+        msg: "{{ file_contents.content | b64decode }}"
