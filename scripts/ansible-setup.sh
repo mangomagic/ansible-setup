@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if command -v ansible-playbook >/dev/null 2>&1; then
+if ! command -v ansible-playbook >/dev/null 2>&1; then
     apt-get update
     apt-get install ansible -y
 fi

@@ -1,14 +1,17 @@
 ---
 - name: Add a new user on the local machine and set up SSH key
   hosts: localhost
-  become: yes  # Use sudo to run the tasks
+  become: yes
 
   vars_files:
     - ../group_vars/all.yml
 
   vars:
-    public_key: "{{ lookup('file', '../files/public_key.txt') }}"  # Load the SSH public key
-    password_hash_sha512: "{{ lookup('file', '../files/password_hash.txt') }}"  # Load the hashed user password
+    # Load the SSH public key
+    public_key: "{{ lookup('file', '../files/public_key.txt') }}"
+
+    # Load the hashed user password. To generate use: ./scripts/hash-password.sh
+    password_hash: "{{ lookup('file', '../files/password_hash.txt') }}"
 
   tasks:
 
@@ -22,7 +25,18 @@
         state: present
         shell: /bin/bash
         groups: sudo
-        password: "{{ password_hash_sha512 }}"
+        password: "{{ password_hash }}"
+
+    - name: Install sudo package
+      package:
+        name: sudo
+        state: present
+
+    - name: Allow user to run sudo without a password
+      lineinfile:
+        path: /etc/sudoers
+        line: '{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
 
     - name: Create .ssh directory for the new user
       file:

@@ -5,14 +5,15 @@
 
   vars:
     sshd_config_path: /etc/ssh/sshd_config
+    set_allow_users: true # If 'true' only ansible user can access SSH (caution: all other users blocked from SSH access)
 
   tasks:
 
-    - name: Ensure SSHD is installed
-      apt:
-        name: openssh-server
+    - name: Ensure SSH server is installed
+      package:
+        name:
+          - openssh-server
         state: present
-        update_cache: yes  # Update the package cache before installing
 
     - name: Ensure SSHD service is running and enabled
       service:
@@ -21,12 +22,12 @@
         enabled: yes
 
     - name: Ensure SSHD config file is present
-      ansible.builtin.file:
+      file:
         path: "{{ sshd_config_path }}"
         state: touch
 
     - name: Set best practices in sshd_config
-      ansible.builtin.lineinfile:
+      lineinfile:
         path: "{{ sshd_config_path }}"
         regexp: '^{{ item.key }}'
         line: '{{ item.key }} {{ item.value }}'
@@ -43,14 +44,15 @@
         - { key: 'ClientAliveCountMax', value: '0' }
 
     - name: Set AllowUsers in sshd_config
-      ansible.builtin.lineinfile:
+      lineinfile:
         path: "{{ sshd_config_path }}"
         regexp: '^AllowUsers'
         line: "AllowUsers {{ ansible_user }}"
         state: present
+      when: set_allow_users is defined and set_allow_users | bool
 
     - name: Restart SSH service
-      ansible.builtin.service:
+      service:
         name: ssh
         state: restarted
 

@@ -43,8 +43,9 @@ readonly ssh_user="mangomagic"
 # Get local SSH port chosen by docker
 readonly port=$(docker container port ansible-setup-test 22 | cut -d ':' -f 2)
 
-# Test SSH connected successfully
-ssh -p "$port" -q -o StrictHostKeyChecking=no "$ssh_user"@localhost 'echo -e "\033[32mSuccessfully connected via SSH\033[0m"; exit'
+# Test SSH connected successfully (also test sudo)
+
+ssh -p "$port" -q -o StrictHostKeyChecking=no "$ssh_user"@localhost 'sudo echo -e "\033[32mSuccessfully connected via SSH\033[0m"; exit'
 
 [ $? -ne 0 ] && echo -e "\033[31mFailed to connect via SSH\033[0m"
 

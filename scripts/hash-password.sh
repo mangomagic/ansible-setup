@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
+# Utility to hash a linux user password
+# No need to reveal password on the CLI
+
 set -euo pipefail
+
+if ! command -v openssl >/dev/null 2>&1; then
+	echo "Openssl is not installed"
+	exit 1
+fi
 
 echo -e "\n\033[33mHash a password using SHA512\033[0m\n"
 read -sp "Enter your password: " password
 echo
 
-readonly os_name=$(uname)
-echo
+readonly salt=$(openssl rand -base64 16)
 
-if [[ "$os_name" == "Darwin" ]]; then
-	echo -n "${password}" | shasum -a 512
-else
-	echo -n "${password}" | sha512sum
-fi
+openssl passwd -6 -salt "${salt}" "${password}"

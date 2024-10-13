@@ -1,6 +1,6 @@
 # Bootstrap Ansible for Ubuntu Server
 
-Inital setup of an Ubuntu web server to use ansible.
+Inital setup of an Ubuntu server to use ansible.
 
 * Install ansible if not present
 * Create user ansible will be using, supplying public SSH key and password hashed with SHA512
@@ -16,16 +16,19 @@ You will need to populate the following files with your desired credentials firs
 * `./files/password_hash.txt`
 * `./files/public_key.txt`
 
-There is a utility to hash a password:
+To hash a password:
 
 ```bash
 ./scripts/hash-password.sh
+```
 
+Follow the on screen prompts
+
+```bash
 Hash a password using SHA512
 
-Enter your password: Hello World!
-
-861844d6704e8573fec34d967e20bcfef3d424cf48be04e6dc08f2bd58c729743371015ead891cc3cf1c9d34b49264b510751b1ff9e537937bc46b5d6ff4ecc8  -
+Enter your password: <PASSWORD>
+$6$CU1vIZD/k5CfzLQf$Odumj2JzFI4WhDiR0AdSnrN.4QMiH7y2khzQo92UUJu5AKCpk5OOZNxUsETfamzTe7ku27.Bju3UOnfnfHlIg/
 ```
 
 Setup ansible:

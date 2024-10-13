@@ -7,11 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Update package list and install necessary packages
 RUN apt-get update && \
     apt-get install -y \
-    curl \
-    wget \
     vim \
-    git \
-    build-essential \
     ansible \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
