@@ -7,9 +7,13 @@ Inital setup of an Ubuntu server to use ansible.
 * Setup sshd with secure settings
 * Set firewall rules
 
-### Setup
+## Setup
 
-Clone this repo on a fresh install of Ubuntu. Run the bash script with root privileges and it will execute ansible playbooks locally to setup the services above.
+### Clone Repo
+
+Clone this repo ideally on a fresh install of Ubuntu.
+
+### Set Credentials
 
 You will need to populate the following files with your desired credentials first:
 
@@ -31,7 +35,11 @@ Enter your password: <PASSWORD>
 $6$CU1vIZD/k5CfzLQf$Odumj2JzFI4WhDiR0AdSnrN.4QMiH7y2khzQo92UUJu5AKCpk5OOZNxUsETfamzTe7ku27.Bju3UOnfnfHlIg/
 ```
 
-Setup ansible using the setup bash script:
+### Run Ansible Setup
+
+Run the bash script with root privileges and it will execute ansible playbooks locally to setup the required services.
+
+Setup using the setup bash script:
 
 ```bash
 ./scripts/ansible-setup.sh
@@ -49,11 +57,11 @@ ansible-playbook playbooks/config_ufw.yml
 
 The ansible user should now be able to SSH into the remote server.
 
-### Local Test
+## Local Test
 
 To test the ansible code in a docker container run:
 
 ```bash
 ./test/run-test.sh
 ```
-The public key must be set correctly and the private key present for the local user.
+The public key must be set correctly in `./files/public_key.txt` and the private key present for the local user.
