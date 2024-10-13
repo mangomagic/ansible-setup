@@ -6,6 +6,7 @@ Inital setup of an Ubuntu server to use ansible.
 * Create user ansible will be using, supplying public SSH key and password hashed with SHA512
 * Setup sshd with secure settings
 * Set firewall rules
+* Install fail2ban (if the environment in not a Docker container)
 
 ## Setup
 
@@ -53,6 +54,8 @@ ansible-playbook playbooks/config_user.yml
 ansible-playbook playbooks/config_sshd.yml
 
 ansible-playbook playbooks/config_ufw.yml
+
+ansible-playbook playbooks/config_fail2ban.yml
 ```
 
 The ansible user should now be able to SSH into the remote server.

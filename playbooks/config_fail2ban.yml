@@ -3,46 +3,41 @@
   become: yes
 
   tasks:
-    - name: Install fail2ban
-      package:
-        name: fail2ban
-        state: present
+    - name: Check if running in Docker
+      ansible.builtin.set_fact:
+        is_docker: "{{ ansible_virtualization_type == 'docker' }}"
 
-    - name: Copy fail2ban configuration file
-      template:
-        src: fail2ban.conf.j2
-        dest: /etc/fail2ban/jail.conf
-        owner: root
-        group: root
-        mode: 0644
-      notify: Restart fail2ban
+    - name: Run fail2ban setup
+      block:
+        - name: Install fail2ban
+          package:
+            name: fail2ban
+            state: present
 
-    - name: Copy fail2ban local configuration file
-      template:
-        src: fail2ban.local.conf.j2
-        dest: /etc/fail2ban/jail.local
-        owner: root
-        group: root
-        mode: 0644
-      notify: Restart fail2ban
+        - name: Copy fail2ban configuration file
+          template:
+            src: fail2ban.conf.j2
+            dest: /etc/fail2ban/jail.conf
+            owner: root
+            group: root
+            mode: 0644
+          notify: Restart fail2ban
 
-    - name: Start and enable fail2ban
-      systemd:
-        name: fail2ban
-        state: started
-        enabled: yes
+        - name: Copy fail2ban local configuration file
+          template:
+            src: fail2ban.local.conf.j2
+            dest: /etc/fail2ban/jail.local
+            owner: root
+            group: root
+            mode: 0644
+          notify: Restart fail2ban
 
-    # - name: Check fail2ban service status
-    #   command: systemctl status fail2ban
-    #   register: fail2ban_status
-    #   ignore_errors: true
-
-    # - name: Start and enable fail2ban
-    #   systemd:
-    #     name: fail2ban
-    #     state: started
-    #     enabled: yes
-    #   when: fail2ban_status.rc != 0
+        - name: Start and enable fail2ban
+          systemd:
+            name: fail2ban
+            state: started
+            enabled: yes
+      when: not is_docker
 
   handlers:
     - name: Restart fail2ban
