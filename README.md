@@ -6,7 +6,7 @@ Inital setup of an Ubuntu server to use ansible.
 * Create user ansible will be using, supplying public SSH key and password hashed with SHA512
 * Setup sshd with secure settings
 * Set firewall rules
-* Install fail2ban (if the environment in not a Docker container)
+* Install fail2ban (if the execution environment is not Docker)
 
 ## Setup
 
