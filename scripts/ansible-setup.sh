@@ -13,4 +13,6 @@ ansible-playbook playbooks/config_sshd.yml
 
 ansible-playbook playbooks/config_ufw.yml
 
+ansible-playbook playbooks/config_fail2ban.yml
+
 echo "ansible-setup finished"

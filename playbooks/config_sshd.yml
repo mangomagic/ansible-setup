@@ -11,8 +11,7 @@
 
     - name: Ensure SSH server is installed
       package:
-        name:
-          - openssh-server
+        name: openssh-server
         state: present
 
     - name: Ensure SSHD service is running and enabled
