@@ -60,11 +60,20 @@ ansible-playbook playbooks/config_fail2ban.yml
 
 The ansible user should now be able to SSH into the remote server.
 
-## Local Test
+## Local Environment
 
-To test the ansible code in a docker container run:
+The public key must be set correctly in `./files/public_key.txt` and the private key present for the local user.
+
+Setup the container and keep it running in the background for development, debugging or testing.
 
 ```bash
-./test/run-test.sh
+./scripts/start-container.sh
 ```
-The public key must be set correctly in `./files/public_key.txt` and the private key present for the local user.
+
+## Local Test
+
+Runs the environment as above but the container will exit after testing SSH connectivity:
+
+```bash
+./scripts/start-container.sh test
+```

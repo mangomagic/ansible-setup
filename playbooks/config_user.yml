@@ -17,7 +17,7 @@
 
     - name: Ansible username
       debug:
-        msg: "The value of my_variable is: {{ ansible_user }}"
+        msg: "Ansible username: {{ ansible_user }}"
 
     - name: Ensure the user is present
       user:
