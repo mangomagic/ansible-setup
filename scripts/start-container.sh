@@ -13,7 +13,7 @@ readonly docker_name="ansible-environment"
 readonly build_dir="$(dirname $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd))"
 
 # Build docker image
-docker build -t "$docker_name" "$build_dir" # -f "${script_dir}/Dockerfile" $(dirname "${script_dir}")
+docker build -t "$docker_name" "$build_dir"
 
 # Run container with "--cap-add NET_ADMIN" allowing networking management
 docker run -d --rm --cap-add NET_ADMIN -P --name "$docker_name" "$docker_name"
