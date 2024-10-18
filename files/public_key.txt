@@ -1,1 +1,1 @@
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPFwg3g4KEYKkWh6DR+hVkO80uiBCUyicfqHa0h2qfJR snowcrash@rapanui.local
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEU4l9biVhN9ttSgIYB4hArAsx5CdXcOjyoPb683ix2 snowcrash@rapanui.local

@@ -3,10 +3,6 @@
   hosts: localhost
   become: yes
 
-  vars:
-    sshd_config_path: /etc/ssh/sshd_config
-    set_allow_users: true # If 'true' only ansible user can access SSH (caution: all other users blocked from SSH access)
-
   tasks:
 
     - name: Ensure SSH server is installed
@@ -48,7 +44,7 @@
         regexp: '^AllowUsers'
         line: "AllowUsers {{ ansible_user }}"
         state: present
-      when: set_allow_users is defined and set_allow_users | bool
+      when: restrict_ssh_users is defined and restrict_ssh_users | bool
 
     - name: Restart SSH service
       service:

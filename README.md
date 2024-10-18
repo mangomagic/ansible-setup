@@ -38,7 +38,7 @@ $6$CU1vIZD/k5CfzLQf$Odumj2JzFI4WhDiR0AdSnrN.4QMiH7y2khzQo92UUJu5AKCpk5OOZNxUsETf
 
 ### Run Ansible Setup
 
-Run the bash script with root privileges and it will execute ansible playbooks locally to setup the required services.
+On the target server, clone the repo and run the bash script with root privileges and it will execute ansible playbooks locally to setup the required services.
 
 Setup using the setup bash script:
 
@@ -60,17 +60,29 @@ ansible-playbook playbooks/config_fail2ban.yml
 
 The ansible user should now be able to SSH into the remote server.
 
-## Local Environment
+## Local Docker Environment
 
-The public key must be set correctly in `./files/public_key.txt` and the private key present for the local user.
+Ensure public key must be set correctly in `./files/public_key.txt`.
 
-Setup the container and keep it running in the background for development, debugging or testing.
+### Build Docker Image
+
+To build the docker image only:
+
+```bash
+./scripts/build-image.sh
+```
+
+This container can be used as a base image for other local dev containers, e.g. [ansible-webservers](https://github.com/mangomagic/ansible-webservers/blob/main/Dockerfile#L1)
+
+### Start Dev Container
+
+Build and run the container in the background for development, debugging or testing.
 
 ```bash
 ./scripts/start-container.sh
 ```
 
-## Local Test
+### Local Test
 
 Runs the environment as above but the container will exit after testing SSH connectivity:
 

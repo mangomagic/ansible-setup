@@ -1,0 +1,8 @@
+# Playbook variables
+
+# Ansible SSH user to be created
+ansible_user: "mangomagic"
+
+# SSH server settings
+sshd_config_path: /etc/ssh/sshd_config
+restrict_ssh_users: false # If 'true' only 'ansible_user' can access SSH (caution: all other users blocked from SSH access)

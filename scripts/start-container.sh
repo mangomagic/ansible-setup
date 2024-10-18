@@ -73,7 +73,7 @@ if [[ "$test_container" != "test" ]]; then
 
         echo -e "\nTo stop: \033[33mdocker stop $docker_name\033[0m"
 
-        echo -e "\nTo connect: \033[33mssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $ssh_user@localhost -p $ssh_port\033[0m"
+        echo -e "\nTo connect: \033[33mssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $ssh_user@localhost -p $ssh_port\033[0m"
     else
         echo -e "\nContainer is not running"
     fi

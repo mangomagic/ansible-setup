@@ -1,6 +1,0 @@
-# Common variables for all hosts
-
-# General settings
-ansible_user: "mangomagic"  # Default SSH user for all hosts
-ansible_become: true      # Enable privilege escalation
-ansible_become_method: "sudo"  # Method for privilege escalation

@@ -13,7 +13,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
-WORKDIR /root/ansible-setup
+WORKDIR /ansible-setup
 
 # Copy local files to the container
 COPY ./ .

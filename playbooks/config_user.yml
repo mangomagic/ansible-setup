@@ -3,9 +3,6 @@
   hosts: localhost
   become: yes
 
-  vars_files:
-    - ../group_vars/all.yml
-
   vars:
     # Load the SSH public key
     public_key: "{{ lookup('file', '../files/public_key.txt') }}"
