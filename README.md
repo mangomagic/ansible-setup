@@ -1,12 +1,16 @@
 # Bootstrap Ansible for Ubuntu Server
 
-Inital setup of an Ubuntu server to use ansible.
+Setup an Ubuntu server to enable ansible to connect via SSH.
+
+Run a script locally on the target server that aims to achieve the following:
 
 * Install ansible if not present
-* Create user ansible will be using, supplying public SSH key and password hashed with SHA512
+* Create user ansible will use for SSH with password hashed with SHA512
+* Enable user to sudo
+* Supply authorised public SSH key
 * Setup sshd with secure settings
-* Set firewall rules
-* Install fail2ban (if the execution environment is not Docker)
+* Set firewall rules for SSH
+* Install and configure fail2ban (if the execution environment is not Docker)
 
 ## Setup
 

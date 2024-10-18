@@ -3,6 +3,9 @@
 # Ansible SSH user to be created
 ansible_user: "mangomagic"
 
+# Password setting for sudo
+sudo_no_password: true # If 'true' don't ask for password on sudo
+
 # SSH server settings
 sshd_config_path: /etc/ssh/sshd_config
 restrict_ssh_users: false # If 'true' only 'ansible_user' can access SSH (caution: all other users blocked from SSH access)

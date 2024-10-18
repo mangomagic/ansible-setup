@@ -29,10 +29,14 @@
         name: sudo
         state: present
 
-    - name: Allow user to run sudo without a password
+    - name: Display sudo password setting
+      debug:
+        msg: "Allow sudo without passowrd: {{ sudo_no_password }}"
+
+    - name: Allow user to sudo
       lineinfile:
         path: /etc/sudoers
-        line: '{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+        line: "{{ ansible_user }} ALL=(ALL){{ ' NOPASSWD:' * sudo_no_password }} ALL"
         validate: 'visudo -cf %s'
 
     - name: Create .ssh directory for the new user
